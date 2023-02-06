@@ -80,7 +80,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     // MARK: - Public methods.
 
     func configureMoviesCell(movie: MovieList.Movie) {
-        currentPosterPath = movie.posterPath
+        currentPosterPath = movie.posterPath ?? ""
         movieTitleLabel.text = movie.title
         ImageLoading.shared.getPoster(imagePosterPath: currentPosterPath) { [weak self] data in
             guard let self = self else { return }
