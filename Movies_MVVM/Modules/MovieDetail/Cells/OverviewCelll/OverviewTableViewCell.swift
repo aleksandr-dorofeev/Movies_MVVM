@@ -5,6 +5,12 @@ import UIKit
 
 /// Cell with overview about movie.
 final class OverviewTableViewCell: UITableViewCell {
+    // MARK: - Private Constants.
+
+    private enum Constants {
+        static let errorMessage = "Error"
+    }
+
     // MARK: - Private visual components.
 
     private let containerView: UIView = {
@@ -34,7 +40,7 @@ final class OverviewTableViewCell: UITableViewCell {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("")
+        fatalError(Constants.errorMessage)
     }
 
     func configureCell(movie: MovieDetail) {

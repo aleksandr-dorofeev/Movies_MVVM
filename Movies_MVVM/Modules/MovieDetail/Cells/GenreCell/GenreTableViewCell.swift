@@ -11,6 +11,7 @@ final class GenreTableViewCell: UITableViewCell {
         static let genreTitle = "Жанр: "
         static let spaceText = " "
         static let commaText = ","
+        static let errorMessage = "Error"
     }
 
     // MARK: - Private visual components.
@@ -41,7 +42,7 @@ final class GenreTableViewCell: UITableViewCell {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("")
+        fatalError(Constants.errorMessage)
     }
 
     // MARK: - Public properties.

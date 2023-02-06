@@ -9,6 +9,7 @@ final class PosterMovieTableViewCell: UITableViewCell {
 
     private enum Constants {
         static let bottomShadowImageName = "bottomShadow"
+        static let errorMessage = "Error"
     }
 
     // MARK: - Private visual components.
@@ -45,7 +46,7 @@ final class PosterMovieTableViewCell: UITableViewCell {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("")
+        fatalError(Constants.errorMessage)
     }
 
     // MARK: - Public methods.

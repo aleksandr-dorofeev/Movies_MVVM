@@ -11,6 +11,10 @@ final class CastTableViewCell: UITableViewCell, UICollectionViewDataSource {
         static let actorCellID = "ActorCollectionCell"
     }
 
+    private enum Constants {
+        static let errorMessage = "Error"
+    }
+
     // MARK: - Public Properties
 
     var movieId = Int()
@@ -61,7 +65,7 @@ final class CastTableViewCell: UITableViewCell, UICollectionViewDataSource {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("")
+        fatalError(Constants.errorMessage)
     }
 
     // MARK: - Public methods.
