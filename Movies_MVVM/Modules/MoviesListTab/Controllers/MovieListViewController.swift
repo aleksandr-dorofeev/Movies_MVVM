@@ -28,10 +28,10 @@ final class MovieListViewController: UIViewController {
 
     // MARK: - Private enums.
 
-    private enum CurrentCategoryOfMovies {
+    private enum CurrentCategoryOfMovies: String {
         case popular
-        case topRating
-        case upComing
+        case topRating = "top_rated"
+        case upComing = "upcoming"
     }
 
     // MARK: - Private visual components.
@@ -160,7 +160,7 @@ final class MovieListViewController: UIViewController {
     private func loadMoreMovies() {
         guard !fetchingMore else { return }
         currentPage += 1
-        fetchData(url: movieListUrlString, categoryOfMovies: UrlComponent.popularCategoryUrlText)
+        fetchData(url: movieListUrlString, categoryOfMovies: currentCategoryMovies.rawValue)
     }
 
     private func filterContentForSearch(_ searchText: String) {
@@ -238,21 +238,21 @@ final class MovieListViewController: UIViewController {
         movies?.removeAll()
         currentPage = 1
         currentCategoryMovies = .popular
-        fetchData(url: movieListUrlString, categoryOfMovies: UrlComponent.popularCategoryUrlText)
+        fetchData(url: movieListUrlString, categoryOfMovies: currentCategoryMovies.rawValue)
     }
 
     @objc private func topRatingAction() {
         movies?.removeAll()
         currentPage = 1
         currentCategoryMovies = .topRating
-        fetchData(url: movieListUrlString, categoryOfMovies: UrlComponent.topRatedCategoryUrlText)
+        fetchData(url: movieListUrlString, categoryOfMovies: currentCategoryMovies.rawValue)
     }
 
     @objc private func upComingAction() {
         movies?.removeAll()
         currentPage = 1
         currentCategoryMovies = .upComing
-        fetchData(url: movieListUrlString, categoryOfMovies: UrlComponent.upcomingCategoryUrlText)
+        fetchData(url: movieListUrlString, categoryOfMovies: currentCategoryMovies.rawValue)
     }
 }
 
