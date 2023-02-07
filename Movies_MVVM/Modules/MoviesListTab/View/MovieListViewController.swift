@@ -14,7 +14,7 @@ final class MovieListViewController: UIViewController {
         static let upComingButtonText = "Скоро"
         static let errorTitle = "Error"
         static let reloadTitleButton = "Reload"
-      static let emptyString = ""
+        static let emptyString = ""
     }
 
     private enum UrlComponent {
@@ -252,7 +252,7 @@ extension MovieListViewController: UISearchResultsUpdating {
     // MARK: - Public methods
 
     func updateSearchResults(for _: UISearchController) {
-      viewModel?.filterContentForSearch(searchController.searchBar.text ?? Constants.emptyString)
+        viewModel?.filterContentForSearch(searchController.searchBar.text ?? Constants.emptyString)
     }
 
     // MARK: - Private methods
