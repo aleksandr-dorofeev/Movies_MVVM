@@ -8,9 +8,9 @@ protocol MovieListViewModelProtocol {
     var currentPage: Int { get set }
     var isFetchingMore: Bool { get set }
     var isSearching: Bool { get set }
-    var successHandler: (() -> ())? { get set }
-    var failureHandler: ((Error) -> ())? { get set }
-    var onMovieDetailHandler: ((String) -> Void)? { get set }
+    var successHandler: VoidHandler? { get set }
+    var failureHandler: ErrorHandler? { get set }
+    var onMovieDetailHandler: StringVoidHandler? { get set }
 
     var filteredMovies: [Movie]? { get }
     var movies: [Movie] { get }

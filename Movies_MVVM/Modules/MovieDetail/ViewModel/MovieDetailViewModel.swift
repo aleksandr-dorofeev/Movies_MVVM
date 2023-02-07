@@ -13,11 +13,11 @@ final class MovieDetailViewModel: MovieDetailViewModelProtocol {
 
     // MARK: - Public properties
 
-    var successDetailHandler: (() -> ())?
-    var failureDetailHandler: ((Error) -> ())?
-    var successActorsHandler: (() -> ())?
-    var failureActorsHandler: ((Error) -> ())?
-    var backHandler: (() -> ())?
+    var successDetailHandler: VoidHandler?
+    var failureDetailHandler: ErrorHandler?
+    var successActorsHandler: VoidHandler?
+    var failureActorsHandler: ErrorHandler?
+    var backHandler: VoidHandler?
 
     // MARK: - Private properties
 

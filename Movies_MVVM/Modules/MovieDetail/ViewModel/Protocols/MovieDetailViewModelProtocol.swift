@@ -5,11 +5,11 @@ import Foundation
 
 /// Protocol for movie detail view model
 protocol MovieDetailViewModelProtocol {
-    var successDetailHandler: (() -> ())? { get set }
-    var failureDetailHandler: ((Error) -> ())? { get set }
-    var successActorsHandler: (() -> ())? { get set }
-    var failureActorsHandler: ((Error) -> ())? { get set }
-    var backHandler: (() -> ())? { get set }
+    var successDetailHandler: VoidHandler? { get set }
+    var failureDetailHandler: ErrorHandler? { get set }
+    var successActorsHandler: VoidHandler? { get set }
+    var failureActorsHandler: ErrorHandler? { get set }
+    var backHandler: VoidHandler? { get set }
 
     var imageService: ImageServiceProtocol { get }
     var networkService: NetworkServiceProtocol { get }

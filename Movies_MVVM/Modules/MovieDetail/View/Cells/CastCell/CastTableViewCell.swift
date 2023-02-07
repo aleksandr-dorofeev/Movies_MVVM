@@ -19,7 +19,6 @@ final class CastTableViewCell: UITableViewCell, UICollectionViewDataSource {
 
     var viewModel: MovieDetailViewModelProtocol?
 
-
     // MARK: - Private visual components
 
     private let containerView: UIView = {

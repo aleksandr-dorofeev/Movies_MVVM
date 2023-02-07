@@ -22,9 +22,9 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     var isFetchingMore = false
     var isSearching = false
     var currentPage = 1
-    var successHandler: (() -> ())?
-    var failureHandler: ((Error) -> ())?
-    var onMovieDetailHandler: ((String) -> Void)?
+    var successHandler: VoidHandler?
+    var failureHandler: ErrorHandler?
+    var onMovieDetailHandler: StringVoidHandler?
 
     // MARK: - Private properties
 

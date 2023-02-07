@@ -19,6 +19,7 @@ final class MovieDetailViewController: UIViewController {
         static let backButtonImageName = "chevron.backward"
         static let bottomShadowImageName = "bottomShadow"
         static let castUrlComponent = "/credits"
+        static let errorTitle = "Error"
     }
 
     private enum TypeOfCell {
@@ -104,8 +105,12 @@ final class MovieDetailViewController: UIViewController {
     private func showErrorAlert() {
         viewModel?.failureDetailHandler = { error in
             DispatchQueue.main.async {
-                // TODO: Make show error alert
-                print(error.localizedDescription)
+                self.showAlert(
+                    title: Constants.errorTitle,
+                    message: error.localizedDescription,
+                    actionTitle: nil,
+                    handler: nil
+                )
             }
         }
     }

@@ -12,6 +12,7 @@ final class MovieListViewController: UIViewController {
         static let popularButtonText = "Популярное"
         static let topRatingButtonText = "Топ"
         static let upComingButtonText = "Скоро"
+        static let errorTitle = "Error"
     }
 
     private enum UrlComponent {
@@ -142,8 +143,12 @@ final class MovieListViewController: UIViewController {
     private func showErrorAlert() {
         viewModel?.failureHandler = { error in
             DispatchQueue.main.async {
-                // TODO: Make show error alert
-                print(error.localizedDescription)
+                self.showAlert(
+                    title: Constants.errorTitle,
+                    message: error.localizedDescription,
+                    actionTitle: nil,
+                    handler: nil
+                )
             }
         }
     }
