@@ -25,8 +25,6 @@ class NetworkServiceCore {
         static let emptyString = ""
     }
 
-    // MARK: - Private properties.
-
     // MARK: - Public methods
 
     func getJson<T: Decodable>(

@@ -179,6 +179,8 @@ final class MovieDetailViewController: UIViewController {
 
 /// UITableViewDataSource
 extension MovieDetailViewController: UITableViewDataSource {
+    // MARK: - Public methods
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         typesOfCell.count
     }

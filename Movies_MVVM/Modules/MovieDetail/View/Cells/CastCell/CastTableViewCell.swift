@@ -4,7 +4,7 @@
 import UIKit
 
 /// Cell with cast collection view
-final class CastTableViewCell: UITableViewCell, UICollectionViewDataSource {
+final class CastTableViewCell: UITableViewCell {
     // MARK: - Private Constants
 
     private enum Constants {
@@ -64,7 +64,7 @@ final class CastTableViewCell: UITableViewCell, UICollectionViewDataSource {
         fatalError(Constants.errorMessage)
     }
 
-    // MARK: - Public methods.
+    // MARK: - Public methods
 
     func configure(components: String) {
         viewModel?.fetchCast(components: components)
@@ -124,6 +124,11 @@ final class CastTableViewCell: UITableViewCell, UICollectionViewDataSource {
                 .constraint(equalToConstant: 400)
         ])
     }
+}
+
+/// UICollectionViewDataSource
+extension CastTableViewCell: UICollectionViewDataSource {
+    // MARK: - Public methods
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel?.cast.count ?? 0

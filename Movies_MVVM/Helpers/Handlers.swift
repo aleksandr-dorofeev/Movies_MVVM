@@ -7,4 +7,5 @@ import Foundation
 typealias VoidHandler = () -> ()
 typealias ErrorHandler = (Error) -> ()
 typealias StringVoidHandler = (String) -> ()
+typealias IntVoidHandler = (Int) -> ()
 // swiftlint:enable all

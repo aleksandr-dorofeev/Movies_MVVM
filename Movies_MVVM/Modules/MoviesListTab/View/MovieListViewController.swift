@@ -216,9 +216,13 @@ final class MovieListViewController: UIViewController {
 
 /// UISearchResultsUpdating
 extension MovieListViewController: UISearchResultsUpdating {
+    // MARK: - Public methods
+
     func updateSearchResults(for _: UISearchController) {
         viewModel?.filterContentForSearch(searchController.searchBar.text ?? "")
     }
+
+    // MARK: - Private methods
 
     private func createSearchController() {
         searchController.searchResultsUpdater = self
@@ -232,6 +236,8 @@ extension MovieListViewController: UISearchResultsUpdating {
 
 /// UICollectionViewDataSource
 extension MovieListViewController: UICollectionViewDataSource {
+    // MARK: - Public methods
+
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
         guard isFiltering else {
             return viewModel?.movies.count ?? 0
@@ -270,6 +276,8 @@ extension MovieListViewController: UICollectionViewDataSource {
 
 /// UICollectionViewDelegate
 extension MovieListViewController: UICollectionViewDelegate {
+    // MARK: - Public methods
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let id = viewModel?.movies[indexPath.row].id else { return }
         viewModel?.showMovieDetail(id: "\(id)")

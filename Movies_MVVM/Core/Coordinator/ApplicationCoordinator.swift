@@ -5,9 +5,11 @@ import Foundation
 
 /// App coordinator
 final class ApplicationCoordinator: BaseCoordinator {
-    // MARK: - Public methods
+    // MARK: - Public properties
 
     var assemblyModuleBuilder: AssemblyModuleBuilderProtocol?
+
+    // MARK: - Public methods
 
     override func start() {
         toMovieListModule()

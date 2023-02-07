@@ -48,24 +48,6 @@ final class MovieListViewModel: MovieListViewModelProtocol {
 
     // MARK: - Public methods
 
-    private func fetchMovies(categoryOfMovies: String?) {
-        isFetchingMore = true
-        networkService.fetchMovies(
-            categoryOfMovies: categoryOfMovies,
-            page: currentPage
-        ) { result in
-            switch result {
-            case let .success(movies):
-                guard let movies = movies?.results else { return }
-                self.movies += movies
-                self.successHandler?()
-            case let .failure(error):
-                self.failureHandler?(error)
-            }
-            self.isFetchingMore = false
-        }
-    }
-
     func fetchPopularMovies() {
         removeMovies()
         currentCategoryMovies = .popular
@@ -103,6 +85,24 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     }
 
     // MARK: - Private methods
+
+    private func fetchMovies(categoryOfMovies: String?) {
+        isFetchingMore = true
+        networkService.fetchMovies(
+            categoryOfMovies: categoryOfMovies,
+            page: currentPage
+        ) { result in
+            switch result {
+            case let .success(movies):
+                guard let movies = movies?.results else { return }
+                self.movies += movies
+                self.successHandler?()
+            case let .failure(error):
+                self.failureHandler?(error)
+            }
+            self.isFetchingMore = false
+        }
+    }
 
     private func removeMovies() {
         movies.removeAll()

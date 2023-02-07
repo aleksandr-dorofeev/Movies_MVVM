@@ -63,7 +63,7 @@ final class ActorCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Private properties
 
-    private var currentActorPath = ""
+    private var currentActorPath = String()
 
     // MARK: - Life cycle
 

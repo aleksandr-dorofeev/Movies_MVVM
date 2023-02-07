@@ -12,8 +12,8 @@ final class MovieListCoordinator: BaseCoordinator {
     // MARK: - Public properties
 
     var assemblyModuleBuilder: AssemblyModuleBuilderProtocol?
-    var onMovieDetailModule: ((Int) -> Void)?
-    var onFinishFlowHandler: (() -> ())?
+    var onMovieDetailModule: IntVoidHandler?
+    var onFinishFlowHandler: VoidHandler?
 
     // MARK: - Initialization
 
