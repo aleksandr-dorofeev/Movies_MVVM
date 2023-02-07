@@ -46,6 +46,7 @@
 		F871426F2991B1EE003E8801 /* MovieListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F871426E2991B1EE003E8801 /* MovieListCoordinator.swift */; };
 		F87142752992D6EA003E8801 /* ViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87142742992D6EA003E8801 /* ViewController+Extension.swift */; };
 		F87142772992D830003E8801 /* Handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87142762992D830003E8801 /* Handlers.swift */; };
+		F871427A2992E79B003E8801 /* MovieListState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87142792992E79B003E8801 /* MovieListState.swift */; };
 		F8AC24542907417E00639953 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AC24532907417E00639953 /* AppDelegate.swift */; };
 		F8AC24562907417E00639953 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AC24552907417E00639953 /* SceneDelegate.swift */; };
 		F8AC24582907417E00639953 /* MovieListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AC24572907417E00639953 /* MovieListViewController.swift */; };
@@ -93,6 +94,7 @@
 		F871426E2991B1EE003E8801 /* MovieListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListCoordinator.swift; sourceTree = "<group>"; };
 		F87142742992D6EA003E8801 /* ViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extension.swift"; sourceTree = "<group>"; };
 		F87142762992D830003E8801 /* Handlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handlers.swift; sourceTree = "<group>"; };
+		F87142792992E79B003E8801 /* MovieListState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListState.swift; sourceTree = "<group>"; };
 		F8AC24502907417E00639953 /* Movies_MVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movies_MVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8AC24532907417E00639953 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F8AC24552907417E00639953 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -178,13 +180,13 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		F80EC4C3290A72BD007E9437 /* MovieDetail */ = {
+		F80EC4C3290A72BD007E9437 /* MovieDetailTab */ = {
 			isa = PBXGroup;
 			children = (
 				F871425229918641003E8801 /* ViewModel */,
 				F80EC4C9290A874B007E9437 /* View */,
 			);
-			path = MovieDetail;
+			path = MovieDetailTab;
 			sourceTree = "<group>";
 		};
 		F80EC4C9290A874B007E9437 /* View */ = {
@@ -392,6 +394,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		F87142782992E789003E8801 /* States */ = {
+			isa = PBXGroup;
+			children = (
+				F87142792992E79B003E8801 /* MovieListState.swift */,
+			);
+			path = States;
+			sourceTree = "<group>";
+		};
 		F8AC24472907417E00639953 = {
 			isa = PBXGroup;
 			children = (
@@ -429,7 +439,7 @@
 			children = (
 				F80EC4AB290803D0007E9437 /* ProfileTab */,
 				F8AC246A29074CC200639953 /* MoviesListTab */,
-				F80EC4C3290A72BD007E9437 /* MovieDetail */,
+				F80EC4C3290A72BD007E9437 /* MovieDetailTab */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -446,6 +456,7 @@
 		F8AC246C29074CDD00639953 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F87142782992E789003E8801 /* States */,
 				F80EC4B429081292007E9437 /* Cells */,
 				F8AC24572907417E00639953 /* MovieListViewController.swift */,
 			);
@@ -577,6 +588,7 @@
 				F80EC4BE29081D47007E9437 /* NetworkServiceCore.swift in Sources */,
 				F871425C29918741003E8801 /* MovieListViewModel.swift in Sources */,
 				F871423E29917F1B003E8801 /* AssemblyModuleBuilder.swift in Sources */,
+				F871427A2992E79B003E8801 /* MovieListState.swift in Sources */,
 				F8AC24582907417E00639953 /* MovieListViewController.swift in Sources */,
 				F871424229918166003E8801 /* ImageServiceProtocol.swift in Sources */,
 				F80EC4E8290C0785007E9437 /* ActorCollectionViewCell.swift in Sources */,

@@ -13,6 +13,8 @@ final class MovieListViewController: UIViewController {
         static let topRatingButtonText = "Топ"
         static let upComingButtonText = "Скоро"
         static let errorTitle = "Error"
+        static let reloadTitleButton = "Reload"
+      static let emptyString = ""
     }
 
     private enum UrlComponent {
@@ -38,10 +40,25 @@ final class MovieListViewController: UIViewController {
     // MARK: - Public properties
 
     var viewModel: MovieListViewModelProtocol?
+    var movieListState: MovieListState = .initial {
+        didSet {
+            DispatchQueue.main.async {
+                self.view.setNeedsLayout()
+            }
+        }
+    }
 
     // MARK: - Private visual components
 
     private let searchController = UISearchController(searchResultsController: nil)
+
+    private let activityIndicator: UIActivityIndicatorView = {
+        let activity = UIActivityIndicatorView()
+        activity.startAnimating()
+        activity.color = .systemPink
+        activity.translatesAutoresizingMaskIntoConstraints = false
+        return activity
+    }()
 
     private let horizontalStackView: UIStackView = {
         let stackView = UIStackView()
@@ -73,7 +90,8 @@ final class MovieListViewController: UIViewController {
         button.setTitle(Constants.popularButtonText, for: .normal)
         button.backgroundColor = UIColor(named: Colors.buttonColorName)
         button.layer.cornerRadius = 10
-        button.addTarget(self, action: #selector(popularAction), for: .touchUpInside)
+        button.tag = 0
+        button.addTarget(self, action: #selector(chooseCategoryAction), for: .touchUpInside)
         return button
     }()
 
@@ -82,7 +100,8 @@ final class MovieListViewController: UIViewController {
         button.setTitle(Constants.topRatingButtonText, for: .normal)
         button.backgroundColor = UIColor(named: Colors.buttonColorName)
         button.layer.cornerRadius = 10
-        button.addTarget(self, action: #selector(topRatingAction), for: .touchUpInside)
+        button.tag = 1
+        button.addTarget(self, action: #selector(chooseCategoryAction), for: .touchUpInside)
         return button
     }()
 
@@ -91,11 +110,12 @@ final class MovieListViewController: UIViewController {
         button.setTitle(Constants.upComingButtonText, for: .normal)
         button.backgroundColor = UIColor(named: Colors.buttonColorName)
         button.layer.cornerRadius = 10
+        button.tag = 2
         if button.isSelected {
             button.layer.borderColor = UIColor(named: Colors.favoriteMovieColorName)?.cgColor
             button.layer.borderWidth = 2
         }
-        button.addTarget(self, action: #selector(upComingAction), for: .touchUpInside)
+        button.addTarget(self, action: #selector(chooseCategoryAction), for: .touchUpInside)
         return button
     }()
 
@@ -112,15 +132,23 @@ final class MovieListViewController: UIViewController {
 
     // MARK: - Life cycle
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-    }
-
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        setupConstraintsForCollectionView()
-        setupConstraintsForStackView()
+        switch movieListState {
+        case .initial:
+            setupUI()
+            viewModel?.fetchMovies()
+            activityIndicator.startAnimating()
+            activityIndicator.isHidden = false
+            moviesCollectionView.isHidden = true
+        case .success:
+            activityIndicator.stopAnimating()
+            activityIndicator.isHidden = true
+            moviesCollectionView.isHidden = false
+            moviesCollectionView.reloadData()
+        case let .failure(error):
+            showErrorAlert(error: error)
+        }
     }
 
     // MARK: - Private methods
@@ -129,26 +157,27 @@ final class MovieListViewController: UIViewController {
         addSubviews()
         createSearchController()
         updateView()
-        showErrorAlert()
+        setupConstraintsForCollectionView()
+        setupConstraintsForStackView()
+        setupConstraintsActivityView()
     }
 
     private func updateView() {
-        viewModel?.successHandler = {
-            DispatchQueue.main.async {
-                self.moviesCollectionView.reloadData()
-            }
+        viewModel?.movieListStateHandler = { [weak self] state in
+            self?.movieListState = state
         }
     }
 
-    private func showErrorAlert() {
-        viewModel?.failureHandler = { error in
-            DispatchQueue.main.async {
-                self.showAlert(
-                    title: Constants.errorTitle,
-                    message: error.localizedDescription,
-                    actionTitle: nil,
-                    handler: nil
-                )
+    private func showErrorAlert(error: Error) {
+        DispatchQueue.main.async {
+            self.showAlert(
+                title: Constants.errorTitle,
+                message: error.localizedDescription,
+                actionTitle: Constants.reloadTitleButton
+            ) { _ in
+                DispatchQueue.main.async {
+                    self.moviesCollectionView.reloadData()
+                }
             }
         }
     }
@@ -156,6 +185,7 @@ final class MovieListViewController: UIViewController {
     private func addSubviews() {
         view.addSubview(moviesCollectionView)
         view.addSubview(horizontalStackView)
+        view.addSubview(activityIndicator)
         horizontalStackView.addArrangedSubview(popularButton)
         horizontalStackView.addArrangedSubview(topRatedButton)
         horizontalStackView.addArrangedSubview(upComingButton)
@@ -189,6 +219,17 @@ final class MovieListViewController: UIViewController {
         )
     }
 
+    private func setupConstraintsActivityView() {
+        NSLayoutConstraint.activate(
+            [
+                activityIndicator.centerXAnchor
+                    .constraint(equalTo: view.centerXAnchor),
+                activityIndicator.centerYAnchor
+                    .constraint(equalTo: view.centerYAnchor),
+            ]
+        )
+    }
+
     private func collectionViewLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         let cellWidthConstant: CGFloat = UIScreen.main.bounds.width / 2.2
@@ -201,16 +242,8 @@ final class MovieListViewController: UIViewController {
         return layout
     }
 
-    @objc private func popularAction(_ sender: UIButton) {
-        viewModel?.fetchPopularMovies()
-    }
-
-    @objc private func topRatingAction() {
-        viewModel?.fetchTopRatedMovies()
-    }
-
-    @objc private func upComingAction() {
-        viewModel?.fetchUpcomingMovies()
+    @objc private func chooseCategoryAction(_ sender: UIButton) {
+        viewModel?.fetchSpecificCategory(tag: sender.tag)
     }
 }
 
@@ -219,7 +252,7 @@ extension MovieListViewController: UISearchResultsUpdating {
     // MARK: - Public methods
 
     func updateSearchResults(for _: UISearchController) {
-        viewModel?.filterContentForSearch(searchController.searchBar.text ?? "")
+      viewModel?.filterContentForSearch(searchController.searchBar.text ?? Constants.emptyString)
     }
 
     // MARK: - Private methods
@@ -267,10 +300,11 @@ extension MovieListViewController: UICollectionViewDataSource {
         willDisplay _: UICollectionViewCell,
         forItemAt indexPath: IndexPath
     ) {
-        guard let movies = viewModel?.movies else { return }
-        if indexPath.row == movies.count - 4 {
-            viewModel?.fetchMoreMovies()
-        }
+        guard
+            let movies = viewModel?.movies,
+            indexPath.row == movies.count - 4
+        else { return }
+        viewModel?.fetchMoreMovies()
     }
 }
 

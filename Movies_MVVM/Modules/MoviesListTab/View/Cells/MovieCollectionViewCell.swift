@@ -89,9 +89,11 @@ final class MovieCollectionViewCell: UICollectionViewCell {
             guard let self = self else { return }
             switch result {
             case let .success(data):
-                guard movie.posterPath == self.currentPosterPath else { return }
+                guard
+                    movie.posterPath == self.currentPosterPath,
+                    let data = data
+                else { return }
                 DispatchQueue.main.async {
-                    guard let data = data else { return }
                     self.movieImageView.image = UIImage(data: data)
                 }
             case let .failure(error):

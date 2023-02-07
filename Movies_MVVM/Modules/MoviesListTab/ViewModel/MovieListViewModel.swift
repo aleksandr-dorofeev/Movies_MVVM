@@ -22,9 +22,8 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     var isFetchingMore = false
     var isSearching = false
     var currentPage = 1
-    var successHandler: VoidHandler?
-    var failureHandler: ErrorHandler?
     var onMovieDetailHandler: StringVoidHandler?
+    var movieListStateHandler: ((MovieListState) -> ())?
 
     // MARK: - Private properties
 
@@ -43,33 +42,31 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     ) {
         self.networkService = networkService
         self.imageService = imageService
-        fetchMovies(categoryOfMovies: currentCategoryMovies.rawValue)
     }
 
     // MARK: - Public methods
 
-    func fetchPopularMovies() {
-        removeMovies()
-        currentCategoryMovies = .popular
-        fetchMovies(categoryOfMovies: currentCategoryMovies.rawValue)
-    }
-
-    func fetchTopRatedMovies() {
-        removeMovies()
-        currentCategoryMovies = .topRating
-        fetchMovies(categoryOfMovies: currentCategoryMovies.rawValue)
-    }
-
-    func fetchUpcomingMovies() {
-        removeMovies()
-        currentCategoryMovies = .upComing
-        fetchMovies(categoryOfMovies: currentCategoryMovies.rawValue)
+    func fetchSpecificCategory(tag: Int) {
+        switch tag {
+        case 0:
+            removeMovies()
+            currentCategoryMovies = .popular
+        case 1:
+            removeMovies()
+            currentCategoryMovies = .topRating
+        case 2:
+            removeMovies()
+            currentCategoryMovies = .upComing
+        default:
+            break
+        }
+        fetchMovies()
     }
 
     func fetchMoreMovies() {
         guard !isFetchingMore else { return }
         currentPage += 1
-        fetchMovies(categoryOfMovies: currentCategoryMovies.rawValue)
+        fetchMovies()
     }
 
     func filterContentForSearch(_ searchText: String) {
@@ -77,7 +74,7 @@ final class MovieListViewModel: MovieListViewModelProtocol {
         filteredMovies = movies.filter {
             $0.title.lowercased().contains(searchText.lowercased())
         }
-        successHandler?()
+        movieListStateHandler?(.success)
     }
 
     func showMovieDetail(id: String) {
@@ -86,19 +83,19 @@ final class MovieListViewModel: MovieListViewModelProtocol {
 
     // MARK: - Private methods
 
-    private func fetchMovies(categoryOfMovies: String?) {
+    func fetchMovies() {
         isFetchingMore = true
         networkService.fetchMovies(
-            categoryOfMovies: categoryOfMovies,
+            categoryOfMovies: currentCategoryMovies.rawValue,
             page: currentPage
         ) { result in
             switch result {
             case let .success(movies):
                 guard let movies = movies?.results else { return }
                 self.movies += movies
-                self.successHandler?()
+                self.movieListStateHandler?(.success)
             case let .failure(error):
-                self.failureHandler?(error)
+                self.movieListStateHandler?(.failure(error))
             }
             self.isFetchingMore = false
         }
