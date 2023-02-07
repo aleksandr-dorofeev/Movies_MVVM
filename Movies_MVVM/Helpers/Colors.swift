@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Public colors.
+/// Public colors
 enum Colors {
     static let backgroundColorName = "BackgroundColor"
     static let tintColorName = "TintColor"

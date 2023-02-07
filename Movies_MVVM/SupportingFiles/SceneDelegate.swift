@@ -3,9 +3,11 @@
 
 import UIKit
 
-/// SceneDelegate.
+/// SceneDelegate
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+    var coordinator: ApplicationCoordinator?
+
     func scene(
         _ scene: UIScene,
         willConnectTo _: UISceneSession,
@@ -13,9 +15,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        let mainTabViewController = MainTabViewController()
-        window.rootViewController = mainTabViewController
+        let assemblyModuleBuilder = AssemblyModuleBuilder()
         window.makeKeyAndVisible()
         self.window = window
+        coordinator = ApplicationCoordinator(assemblyModuleBuilder: assemblyModuleBuilder)
+        coordinator?.start()
+        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        print(url)
     }
 }

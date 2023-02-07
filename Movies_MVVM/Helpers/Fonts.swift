@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Public fonts.
+// Public fonts
 enum ConstantsFonts {
     static let titleFontName = "Arial Bold"
     static let textFontName = "Arial"
