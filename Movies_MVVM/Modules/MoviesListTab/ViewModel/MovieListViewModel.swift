@@ -1,5 +1,5 @@
 // MovieListViewModel.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Aleksandr Dorofeev. All rights reserved.
 
 import Foundation
 
@@ -23,7 +23,13 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     var isSearching = false
     var currentPage = 1
     var onMovieDetailHandler: StringVoidHandler?
-    var movieListStateHandler: ((MovieListState) -> ())?
+    var movieListState: MovieListState = .initial {
+        didSet {
+            reloadViewHandler?()
+        }
+    }
+
+    var reloadViewHandler: VoidHandler?
 
     // MARK: - Private properties
 
@@ -31,8 +37,8 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     private var currentCategoryMovies: CurrentCategoryOfMovies = .popular
 
     private(set) var imageService: ImageServiceProtocol
-    private(set) var movies: [Movie] = []
     private(set) var filteredMovies: [Movie]?
+    private(set) var movies: [Movie] = []
 
     // MARK: - Initializer
 
@@ -74,7 +80,7 @@ final class MovieListViewModel: MovieListViewModelProtocol {
         filteredMovies = movies.filter {
             $0.title.lowercased().contains(searchText.lowercased())
         }
-        movieListStateHandler?(.success)
+        reloadViewHandler?()
     }
 
     func showMovieDetail(id: String) {
@@ -93,9 +99,9 @@ final class MovieListViewModel: MovieListViewModelProtocol {
             case let .success(movies):
                 guard let movies = movies?.results else { return }
                 self.movies += movies
-                self.movieListStateHandler?(.success)
+                self.movieListState = .success
             case let .failure(error):
-                self.movieListStateHandler?(.failure(error))
+                self.movieListState = .failure(error)
             }
             self.isFetchingMore = false
         }

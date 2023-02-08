@@ -1,5 +1,5 @@
 // CastTableViewCell.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Aleksandr Dorofeev. All rights reserved.
 
 import UIKit
 
@@ -82,7 +82,8 @@ final class CastTableViewCell: UITableViewCell {
     }
 
     private func updateView() {
-        viewModel?.successActorsHandler = {
+        viewModel?.successActorsHandler = { [weak self] in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 self.castCollectionView.reloadData()
             }

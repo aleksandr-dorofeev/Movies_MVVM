@@ -1,5 +1,5 @@
 // MovieListViewController.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Aleksandr Dorofeev. All rights reserved.
 
 import UIKit
 
@@ -40,13 +40,6 @@ final class MovieListViewController: UIViewController {
     // MARK: - Public properties
 
     var viewModel: MovieListViewModelProtocol?
-    var movieListState: MovieListState = .initial {
-        didSet {
-            DispatchQueue.main.async {
-                self.view.setNeedsLayout()
-            }
-        }
-    }
 
     // MARK: - Private visual components
 
@@ -134,7 +127,7 @@ final class MovieListViewController: UIViewController {
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        switch movieListState {
+        switch viewModel?.movieListState {
         case .initial:
             setupUI()
             viewModel?.fetchMovies()
@@ -148,6 +141,8 @@ final class MovieListViewController: UIViewController {
             moviesCollectionView.reloadData()
         case let .failure(error):
             showErrorAlert(error: error)
+        default:
+            break
         }
     }
 
@@ -156,15 +151,18 @@ final class MovieListViewController: UIViewController {
     private func setupUI() {
         addSubviews()
         createSearchController()
-        updateView()
+        bind()
         setupConstraintsForCollectionView()
         setupConstraintsForStackView()
         setupConstraintsActivityView()
     }
 
-    private func updateView() {
-        viewModel?.movieListStateHandler = { [weak self] state in
-            self?.movieListState = state
+    private func bind() {
+        viewModel?.reloadViewHandler = { [weak self] in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.view.setNeedsLayout()
+            }
         }
     }
 
@@ -174,7 +172,8 @@ final class MovieListViewController: UIViewController {
                 title: Constants.errorTitle,
                 message: error.localizedDescription,
                 actionTitle: Constants.reloadTitleButton
-            ) { _ in
+            ) { [weak self] _ in
+                guard let self = self else { return }
                 DispatchQueue.main.async {
                     self.moviesCollectionView.reloadData()
                 }
@@ -287,8 +286,7 @@ extension MovieListViewController: UICollectionViewDataSource {
                 withReuseIdentifier: Identifier.movieCellID,
                 for: indexPath
             ) as? MovieCollectionViewCell,
-            let movie = isFiltering ? viewModel?.filteredMovies?[indexPath.row] : viewModel?
-            .movies[indexPath.row],
+            let movie = isFiltering ? viewModel?.filteredMovies?[indexPath.row] : viewModel?.movies[indexPath.row],
             let imageService = viewModel?.imageService
         else { return UICollectionViewCell() }
         cell.configure(imageService: imageService, movie: movie)

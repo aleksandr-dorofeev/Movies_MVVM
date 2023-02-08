@@ -1,5 +1,5 @@
 // MovieListCoordinator.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Aleksandr Dorofeev. All rights reserved.
 
 import UIKit
 

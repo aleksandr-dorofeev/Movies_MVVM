@@ -1,5 +1,5 @@
 // MovieListViewModelProtocol.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Aleksandr Dorofeev. All rights reserved.
 
 import Foundation
 
@@ -9,7 +9,8 @@ protocol MovieListViewModelProtocol {
     var isFetchingMore: Bool { get set }
     var isSearching: Bool { get set }
     var onMovieDetailHandler: StringVoidHandler? { get set }
-    var movieListStateHandler: ((MovieListState) -> ())? { get set }
+    var reloadViewHandler: VoidHandler? { get set }
+    var movieListState: MovieListState { get set }
 
     var filteredMovies: [Movie]? { get }
     var movies: [Movie] { get }

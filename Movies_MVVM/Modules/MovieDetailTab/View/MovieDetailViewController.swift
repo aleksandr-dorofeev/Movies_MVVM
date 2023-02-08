@@ -1,5 +1,5 @@
 // MovieDetailViewController.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Aleksandr Dorofeev. All rights reserved.
 
 import UIKit
 
@@ -22,7 +22,7 @@ final class MovieDetailViewController: UIViewController {
         static let errorTitle = "Error"
     }
 
-    private enum TypeOfCell {
+    private enum CellType {
         case poster
         case info
         case genre
@@ -36,7 +36,7 @@ final class MovieDetailViewController: UIViewController {
 
     // MARK: - Private properties
 
-    private let typesOfCell: [TypeOfCell] = [.poster, .info, .genre, .overview, .actors]
+    private let cellTypes: [CellType] = [.poster, .info, .genre, .overview, .actors]
 
     // MARK: - Private visual components
 
@@ -90,20 +90,18 @@ final class MovieDetailViewController: UIViewController {
         view.addSubview(movieTableView)
         view.addSubview(backButton)
         registerCells()
-        updateView()
-        showErrorAlert()
+        bind()
     }
 
-    private func updateView() {
-        viewModel?.successDetailHandler = {
+    private func bind() {
+        viewModel?.successDetailHandler = { [weak self] in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 self.movieTableView.reloadData()
             }
         }
-    }
-
-    private func showErrorAlert() {
-        viewModel?.failureDetailHandler = { error in
+        viewModel?.failureDetailHandler = { [weak self] error in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 self.showAlert(
                     title: Constants.errorTitle,
@@ -182,11 +180,11 @@ extension MovieDetailViewController: UITableViewDataSource {
     // MARK: - Public methods
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        typesOfCell.count
+        cellTypes.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = typesOfCell[indexPath.row]
+        let cell = cellTypes[indexPath.row]
         switch cell {
         case .poster:
             guard
