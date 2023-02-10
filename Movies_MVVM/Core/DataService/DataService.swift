@@ -14,7 +14,7 @@ final class DataService: DataServiceProtocol {
         static let genreEntityName = "GenreData"
         static let emptyString = ""
         static let predicateCategoryFormat = "movieType CONTAINS %@"
-        static let predicateIdFormat = "movieType CONTAINS %@"
+        static let predicateIdFormat = "id == %i"
     }
 
     // MARK: - Private properties
