@@ -15,6 +15,8 @@ final class MovieListViewController: UIViewController {
         static let errorTitle = "Error"
         static let reloadTitleButton = "Reload"
         static let emptyString = ""
+        static let titleApiAlert = "Введите API ключ для загрузки данных"
+        static let loadingButtonTitle = "Загрузить"
     }
 
     private enum UrlComponent {
@@ -168,9 +170,9 @@ final class MovieListViewController: UIViewController {
     private func apiKeyAlertBind() {
         DispatchQueue.main.async {
             self.showApiKeyAlert(
-                title: "",
-                message: "",
-                actionTitle: "Загрузить"
+                title: Constants.titleApiAlert,
+                message: Constants.emptyString,
+                actionTitle: Constants.loadingButtonTitle
             ) { [weak self] text in
                 guard let self = self else { return }
                 self.viewModel?.setApiKey(text: text)

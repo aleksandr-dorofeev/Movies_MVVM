@@ -6,6 +6,17 @@ import UIKit
 
 /// Data storage
 final class DataService: DataServiceProtocol {
+    // MARK: - Private Constants
+
+    private enum Constants {
+        static let movieEntityName = "MovieData"
+        static let movieDetailEntityName = "MovieDetailData"
+        static let genreEntityName = "GenreData"
+        static let emptyString = ""
+        static let predicateCategoryFormat = "movieType CONTAINS %@"
+        static let predicateIdFormat = "movieType CONTAINS %@"
+    }
+
     // MARK: - Private properties
 
     private let dataCore = DataCore()
@@ -13,7 +24,8 @@ final class DataService: DataServiceProtocol {
     // MARK: - Public properties
 
     func writeMovieData(movies: [Movie], category: String) {
-        guard let entity = NSEntityDescription.entity(forEntityName: "MovieData", in: dataCore.context) else { return }
+        guard let entity = NSEntityDescription.entity(forEntityName: Constants.movieEntityName, in: dataCore.context)
+        else { return }
         dataCore.context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         for movie in movies {
             let movieObject = MovieData(entity: entity, insertInto: dataCore.context)
@@ -28,8 +40,14 @@ final class DataService: DataServiceProtocol {
 
     func writeMovieDetailData(movieDetail: MovieDetail, id: Int) {
         guard
-            let movieDetailEntity = NSEntityDescription.entity(forEntityName: "MovieDetailData", in: dataCore.context),
-            let movieGenreEntity = NSEntityDescription.entity(forEntityName: "GenreData", in: dataCore.context)
+            let movieDetailEntity = NSEntityDescription.entity(
+                forEntityName: Constants.movieDetailEntityName,
+                in: dataCore.context
+            ),
+            let movieGenreEntity = NSEntityDescription.entity(
+                forEntityName: Constants.genreEntityName,
+                in: dataCore.context
+            )
         else { return }
         dataCore.context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         let movieDetailObject = MovieDetailData(entity: movieDetailEntity, insertInto: dataCore.context)
@@ -50,15 +68,15 @@ final class DataService: DataServiceProtocol {
     func readMovieData(category: String) -> [Movie]? {
         var movies: [Movie] = []
         let movieRequest = MovieData.fetchRequest()
-        let predicate = NSPredicate(format: "movieType CONTAINS %@", category)
+        let predicate = NSPredicate(format: Constants.predicateCategoryFormat, category)
         movieRequest.predicate = predicate
         do {
             let moviesData = try dataCore.context.fetch(movieRequest)
             for movieData in moviesData {
                 let movie = Movie(
                     id: Int(movieData.id),
-                    posterPath: movieData.posterPath ?? "",
-                    title: movieData.title ?? "",
+                    posterPath: movieData.posterPath ?? Constants.emptyString,
+                    title: movieData.title ?? Constants.emptyString,
                     voteAverage: movieData.voteAverage
                 )
                 movies.append(movie)
@@ -74,7 +92,7 @@ final class DataService: DataServiceProtocol {
         var movieDetail: MovieDetail
         var genres: [MovieDetail.Genres] = []
         let movieDetailRequest = MovieDetailData.fetchRequest()
-        let predicate = NSPredicate(format: "id == %i", id)
+        let predicate = NSPredicate(format: Constants.predicateIdFormat, id)
         movieDetailRequest.predicate = predicate
         do {
             guard
@@ -82,16 +100,16 @@ final class DataService: DataServiceProtocol {
                 let genresData = movieDetailData.genres?.allObjects as? [GenreData]
             else { return nil }
             for genre in genresData {
-                let genre = MovieDetail.Genres(name: genre.name ?? "")
+                let genre = MovieDetail.Genres(name: genre.name ?? Constants.emptyString)
                 genres.append(genre)
             }
             movieDetail = MovieDetail(
-                posterPath: movieDetailData.posterPath ?? "",
-                title: movieDetailData.title ?? "",
+                posterPath: movieDetailData.posterPath ?? Constants.emptyString,
+                title: movieDetailData.title ?? Constants.emptyString,
                 voteAverage: movieDetailData.voteAverage,
-                releaseDate: movieDetailData.releaseDate ?? "",
+                releaseDate: movieDetailData.releaseDate ?? Constants.emptyString,
                 genres: genres,
-                overview: movieDetailData.overview ?? "",
+                overview: movieDetailData.overview ?? Constants.emptyString,
                 id: id
             )
         } catch let error as NSError {
