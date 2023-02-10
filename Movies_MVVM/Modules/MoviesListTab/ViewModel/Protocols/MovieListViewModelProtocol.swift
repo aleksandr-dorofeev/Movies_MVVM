@@ -10,13 +10,16 @@ protocol MovieListViewModelProtocol {
     var isSearching: Bool { get set }
     var onMovieDetailHandler: StringVoidHandler? { get set }
     var reloadViewHandler: VoidHandler? { get set }
+    var apiKeyHandler: VoidHandler? { get set }
     var movieListState: MovieListState { get set }
 
     var filteredMovies: [Movie]? { get }
     var movies: [Movie] { get }
     var imageService: ImageServiceProtocol { get }
 
-    func fetchMovies()
+    func getMovies()
+    func getApiKey()
+    func setApiKey(text: String)
     func fetchMoreMovies()
     func fetchSpecificCategory(tag: Int)
     func filterContentForSearch(_ searchText: String)

@@ -26,4 +26,22 @@ extension UIViewController {
         alertController.addAction(alertControllerAction)
         present(alertController, animated: true)
     }
+
+    func showApiKeyAlert(title: String?, message: String?, actionTitle: String, handler: ((String) -> Void)?) {
+        let actionController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+        let alertAction = UIAlertAction(
+            title: actionTitle,
+            style: .default
+        ) { _ in
+            guard let key = actionController.textFields?.first?.text else { return }
+            handler?(key)
+        }
+        actionController.addTextField(configurationHandler: nil)
+        actionController.addAction(alertAction)
+        present(actionController, animated: true, completion: nil)
+    }
 }

@@ -130,7 +130,6 @@ final class MovieListViewController: UIViewController {
         switch viewModel?.movieListState {
         case .initial:
             setupUI()
-            viewModel?.fetchMovies()
             activityIndicator.startAnimating()
             activityIndicator.isHidden = false
             moviesCollectionView.isHidden = true
@@ -150,14 +149,36 @@ final class MovieListViewController: UIViewController {
 
     private func setupUI() {
         addSubviews()
+        callApiAlertHandler()
+        viewModel?.getApiKey()
+        reloadBind()
         createSearchController()
-        bind()
         setupConstraintsForCollectionView()
         setupConstraintsForStackView()
         setupConstraintsActivityView()
     }
 
-    private func bind() {
+    private func callApiAlertHandler() {
+        viewModel?.apiKeyHandler = { [weak self] in
+            guard let self = self else { return }
+            self.apiKeyAlertBind()
+        }
+    }
+
+    private func apiKeyAlertBind() {
+        DispatchQueue.main.async {
+            self.showApiKeyAlert(
+                title: "",
+                message: "",
+                actionTitle: "Загрузить"
+            ) { [weak self] text in
+                guard let self = self else { return }
+                self.viewModel?.setApiKey(text: text)
+            }
+        }
+    }
+
+    private func reloadBind() {
         viewModel?.reloadViewHandler = { [weak self] in
             guard let self = self else { return }
             DispatchQueue.main.async {

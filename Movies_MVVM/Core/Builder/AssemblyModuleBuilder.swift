@@ -9,18 +9,32 @@ final class AssemblyModuleBuilder: AssemblyModuleBuilderProtocol {
 
     func makeMovieListModule() -> UIViewController {
         let view = MovieListViewController()
-        let networkService = NetworkService()
+        let keychainService = KeychainService()
+        let networkService = NetworkService(keychainService: keychainService)
         let imageService = ImageService()
-        let viewModel = MovieListViewModel(networkService: networkService, imageService: imageService)
+        let dataService = DataService()
+        let viewModel = MovieListViewModel(
+            networkService: networkService,
+            imageService: imageService,
+            dataService: dataService,
+            keychainService: keychainService
+        )
         view.viewModel = viewModel
         return view
     }
 
     func makeDetailMoviesModule(id: String?) -> UIViewController {
         let view = MovieDetailViewController()
-        let networkService = NetworkService()
+        let keychainService = KeychainService()
+        let networkService = NetworkService(keychainService: keychainService)
         let imageService = ImageService()
-        let viewModel = MovieDetailViewModel(networkService: networkService, imageService: imageService, id: id)
+        let dataService = DataService()
+        let viewModel = MovieDetailViewModel(
+            networkService: networkService,
+            imageService: imageService,
+            id: id,
+            dataService: dataService
+        )
         view.viewModel = viewModel
         return view
     }

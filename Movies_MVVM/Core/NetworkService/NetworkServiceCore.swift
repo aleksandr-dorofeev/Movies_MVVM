@@ -25,6 +25,17 @@ class NetworkServiceCore {
         static let emptyString = ""
     }
 
+    // MARK: Private properties
+
+    private var keychainService: KeychainServiceProtocol?
+
+    // MARK: - Initializer
+
+    convenience init(keychainService: KeychainServiceProtocol) {
+        self.init()
+        self.keychainService = keychainService
+    }
+
     // MARK: - Public methods
 
     func getJson<T: Decodable>(
@@ -59,7 +70,7 @@ class NetworkServiceCore {
             )
         else { return URLComponents() }
         urlComponents.queryItems = [
-            URLQueryItem(name: QueryItems.apiKeyQueryText, value: UrlComponent.apiKeyText),
+            URLQueryItem(name: QueryItems.apiKeyQueryText, value: keychainService?.readKey()),
             URLQueryItem(name: QueryItems.languageQueryText, value: UrlComponent.languageValueText),
             URLQueryItem(name: QueryItems.regionQueryText, value: UrlComponent.regionValueText)
         ]
