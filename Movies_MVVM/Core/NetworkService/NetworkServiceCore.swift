@@ -9,7 +9,6 @@ class NetworkServiceCore {
 
     private enum UrlComponent {
         static let movieBaseUrlText = "https://api.themoviedb.org/3/movie/"
-        static let apiKeyText = "7305af56f5e3e8404ad79e2f0c7cefe0"
         static let languageValueText = "ru-RU"
         static let regionValueText = "ru"
     }

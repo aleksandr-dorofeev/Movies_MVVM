@@ -17,7 +17,6 @@ protocol MovieListViewModelProtocol {
     var movies: [Movie] { get }
     var imageService: ImageServiceProtocol { get }
 
-    func getMovies()
     func getApiKey()
     func setApiKey(text: String)
     func fetchMoreMovies()
