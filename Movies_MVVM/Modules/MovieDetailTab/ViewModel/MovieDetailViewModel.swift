@@ -21,6 +21,8 @@ final class MovieDetailViewModel: MovieDetailViewModelProtocol {
 
     // MARK: - Private properties
 
+    private let dataService: DataServiceProtocol
+
     private(set) var id: String?
     private(set) var movieDetail: MovieDetail?
     private(set) var cast: [Cast] = []
@@ -32,12 +34,14 @@ final class MovieDetailViewModel: MovieDetailViewModelProtocol {
     init(
         networkService: NetworkServiceProtocol,
         imageService: ImageServiceProtocol,
-        id: String?
+        id: String?,
+        dataService: DataServiceProtocol
     ) {
         self.networkService = networkService
         self.imageService = imageService
         self.id = id
-        fetchMovieDetails()
+        self.dataService = dataService
+        getMovieDetails()
     }
 
     // MARK: - Public methods
@@ -66,15 +70,55 @@ final class MovieDetailViewModel: MovieDetailViewModelProtocol {
         }
     }
 
+    func getPosterImage(posterPath: String, completion: @escaping (Data) -> ()) {
+        imageService.getImage(imagePath: posterPath) { result in
+            switch result {
+            case let .success(data):
+                guard let data = data else { return }
+                completion(data)
+            case let .failure(error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    func getActorImage(actorImagePath: String, completion: @escaping (Data) -> ()) {
+        imageService.getImage(imagePath: actorImagePath) { result in
+            switch result {
+            case let .success(data):
+                guard let data = data else { return }
+                completion(data)
+            case let .failure(error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+
     // MARK: - Private methods
 
+    private func getMovieDetails() {
+        guard
+            let id = id,
+            let intId = Int(id),
+            let movieDetail = dataService.readMovieDetailData(id: intId)
+        else {
+            return fetchMovieDetails()
+        }
+        self.movieDetail = movieDetail
+        successDetailHandler?()
+    }
+
     private func fetchMovieDetails() {
-        guard let id = id else { return }
+        guard
+            let id = id,
+            let idInt = Int(id)
+        else { return }
         networkService.fetchDetails(id: id) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success(movieDetail):
                 self.movieDetail = movieDetail
+                self.dataService.writeMovieDetailData(movieDetail: movieDetail, id: idInt)
                 self.successDetailHandler?()
             case let .failure(error):
                 self.failureDetailHandler?(error)

@@ -5,15 +5,21 @@ import Foundation
 
 /// Loading image
 final class ImageService: ImageServiceProtocol {
+    // MARK: - Public properties
+
+    // MARK: - Initializers
+
+    init(proxy: ProxyProtocol) {
+        self.proxy = proxy
+    }
+
     // MARK: - Private properties
 
-    private let imageNetworkService = ImageNetworkService()
-    private let fileManagerService = FileManagerService()
+    private let proxy: ProxyProtocol
 
     // MARK: - Public methods
 
     func getImage(imagePath: String, completion: @escaping (Result<Data?, Error>) -> ()) {
-        let proxy = Proxy(imageNetworkService: imageNetworkService, fileManagerService: fileManagerService)
         proxy.getImage(imagePath: imagePath) { result in
             switch result {
             case let .success(data):

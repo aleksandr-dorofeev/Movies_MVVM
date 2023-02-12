@@ -10,7 +10,7 @@ final class Proxy: ProxyProtocol {
     private let imageNetworkService: ImageNetworkServiceProtocol
     private let fileManagerService: FileManagerServiceProtocol
 
-    // MARK: - Initializer
+    // MARK: - Initializers
 
     init(imageNetworkService: ImageNetworkServiceProtocol, fileManagerService: FileManagerServiceProtocol) {
         self.imageNetworkService = imageNetworkService

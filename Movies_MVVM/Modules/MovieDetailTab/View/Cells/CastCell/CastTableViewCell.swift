@@ -144,10 +144,10 @@ extension CastTableViewCell: UICollectionViewDataSource {
                 withReuseIdentifier: Identifier.actorCellID,
                 for: indexPath
             ) as? ActorCollectionViewCell,
-            let imageService = viewModel?.imageService,
-            let cast = viewModel?.cast[indexPath.row]
+            let viewModel = viewModel
         else { return UICollectionViewCell() }
-        cell.configure(imageService: imageService, cast: cast)
+        let cast = viewModel.cast[indexPath.row]
+        cell.configure(viewModel, cast: cast)
         return cell
     }
 }

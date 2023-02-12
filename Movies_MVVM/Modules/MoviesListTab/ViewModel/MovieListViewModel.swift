@@ -20,6 +20,7 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     // MARK: - Public properties
 
     var isFetchingMore = false
+    var isLastPage = false
     var isSearching = false
     var currentPage = 1
     var onMovieDetailHandler: StringVoidHandler?
@@ -30,10 +31,13 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     }
 
     var reloadViewHandler: VoidHandler?
+    var apiKeyHandler: VoidHandler?
 
     // MARK: - Private properties
 
+    private let dataService: DataServiceProtocol
     private let networkService: NetworkServiceProtocol
+    private let keychainService: KeychainServiceProtocol
     private var currentCategoryMovies: CurrentCategoryOfMovies = .popular
 
     private(set) var imageService: ImageServiceProtocol
@@ -44,13 +48,27 @@ final class MovieListViewModel: MovieListViewModelProtocol {
 
     init(
         networkService: NetworkServiceProtocol,
-        imageService: ImageServiceProtocol
+        imageService: ImageServiceProtocol,
+        dataService: DataServiceProtocol,
+        keychainService: KeychainServiceProtocol
     ) {
         self.networkService = networkService
         self.imageService = imageService
+        self.dataService = dataService
+        self.keychainService = keychainService
     }
 
     // MARK: - Public methods
+
+    func getMovies() {
+        guard let movies = dataService.readMovieData(category: currentCategoryMovies.rawValue) else { return }
+        if !movies.isEmpty {
+            self.movies = movies
+            movieListState = .success
+        } else {
+            fetchMovies()
+        }
+    }
 
     func fetchSpecificCategory(tag: Int) {
         switch tag {
@@ -69,8 +87,24 @@ final class MovieListViewModel: MovieListViewModelProtocol {
         fetchMovies()
     }
 
+    func getApiKey() {
+        if keychainService.readKey() != nil {
+            getMovies()
+        } else {
+            apiKeyHandler?()
+        }
+    }
+
+    func setApiKey(text: String) {
+        keychainService.writeKey(text: text)
+        fetchMovies()
+    }
+
     func fetchMoreMovies() {
-        guard !isFetchingMore else { return }
+        guard
+            !isFetchingMore,
+            !isLastPage
+        else { return }
         currentPage += 1
         fetchMovies()
     }
@@ -87,9 +121,26 @@ final class MovieListViewModel: MovieListViewModelProtocol {
         onMovieDetailHandler?(id)
     }
 
+    func getPoster(currentPosterPath: String, movie: Movie, completion: @escaping (Data) -> ()) {
+        var posterPath = currentPosterPath
+        posterPath = movie.posterPath ?? Constants.emptyString
+        imageService.getImage(imagePath: posterPath) { result in
+            switch result {
+            case let .success(data):
+                guard
+                    movie.posterPath == posterPath,
+                    let data = data
+                else { return }
+                completion(data)
+            case let .failure(error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+
     // MARK: - Private methods
 
-    func fetchMovies() {
+    private func fetchMovies() {
         isFetchingMore = true
         networkService.fetchMovies(
             categoryOfMovies: currentCategoryMovies.rawValue,
@@ -98,7 +149,11 @@ final class MovieListViewModel: MovieListViewModelProtocol {
             switch result {
             case let .success(movies):
                 guard let movies = movies?.results else { return }
+                if movies.isEmpty {
+                    self.isLastPage = true
+                }
                 self.movies += movies
+                self.dataService.writeMovieData(movies: self.movies, category: self.currentCategoryMovies.rawValue)
                 self.movieListState = .success
             case let .failure(error):
                 self.movieListState = .failure(error)
@@ -109,6 +164,7 @@ final class MovieListViewModel: MovieListViewModelProtocol {
 
     private func removeMovies() {
         movies.removeAll()
+        isLastPage = false
         currentPage = 1
     }
 }

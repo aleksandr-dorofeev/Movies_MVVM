@@ -9,7 +9,6 @@ class NetworkServiceCore {
 
     private enum UrlComponent {
         static let movieBaseUrlText = "https://api.themoviedb.org/3/movie/"
-        static let apiKeyText = "7305af56f5e3e8404ad79e2f0c7cefe0"
         static let languageValueText = "ru-RU"
         static let regionValueText = "ru"
     }
@@ -23,6 +22,17 @@ class NetworkServiceCore {
 
     private enum Constants {
         static let emptyString = ""
+    }
+
+    // MARK: Private properties
+
+    private var keychainService: KeychainServiceProtocol?
+
+    // MARK: - Initializer
+
+    convenience init(keychainService: KeychainServiceProtocol) {
+        self.init()
+        self.keychainService = keychainService
     }
 
     // MARK: - Public methods
@@ -59,7 +69,7 @@ class NetworkServiceCore {
             )
         else { return URLComponents() }
         urlComponents.queryItems = [
-            URLQueryItem(name: QueryItems.apiKeyQueryText, value: UrlComponent.apiKeyText),
+            URLQueryItem(name: QueryItems.apiKeyQueryText, value: keychainService?.readKey()),
             URLQueryItem(name: QueryItems.languageQueryText, value: UrlComponent.languageValueText),
             URLQueryItem(name: QueryItems.regionQueryText, value: UrlComponent.regionValueText)
         ]

@@ -9,18 +9,38 @@ final class AssemblyModuleBuilder: AssemblyModuleBuilderProtocol {
 
     func makeMovieListModule() -> UIViewController {
         let view = MovieListViewController()
-        let networkService = NetworkService()
-        let imageService = ImageService()
-        let viewModel = MovieListViewModel(networkService: networkService, imageService: imageService)
+        let keychainService = KeychainService()
+        let networkService = NetworkService(keychainService: keychainService)
+        let fileManagerService = FileManagerService()
+        let imageNetworkService = ImageNetworkService()
+        let proxyService = Proxy(imageNetworkService: imageNetworkService, fileManagerService: fileManagerService)
+        let imageService = ImageService(proxy: proxyService)
+        let dataService = DataService()
+        let viewModel = MovieListViewModel(
+            networkService: networkService,
+            imageService: imageService,
+            dataService: dataService,
+            keychainService: keychainService
+        )
         view.viewModel = viewModel
         return view
     }
 
     func makeDetailMoviesModule(id: String?) -> UIViewController {
         let view = MovieDetailViewController()
-        let networkService = NetworkService()
-        let imageService = ImageService()
-        let viewModel = MovieDetailViewModel(networkService: networkService, imageService: imageService, id: id)
+        let keychainService = KeychainService()
+        let networkService = NetworkService(keychainService: keychainService)
+        let fileManagerService = FileManagerService()
+        let imageNetworkService = ImageNetworkService()
+        let proxyService = Proxy(imageNetworkService: imageNetworkService, fileManagerService: fileManagerService)
+        let imageService = ImageService(proxy: proxyService)
+        let dataService = DataService()
+        let viewModel = MovieDetailViewModel(
+            networkService: networkService,
+            imageService: imageService,
+            id: id,
+            dataService: dataService
+        )
         view.viewModel = viewModel
         return view
     }

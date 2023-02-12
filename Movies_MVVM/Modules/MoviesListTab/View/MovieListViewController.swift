@@ -15,6 +15,8 @@ final class MovieListViewController: UIViewController {
         static let errorTitle = "Error"
         static let reloadTitleButton = "Reload"
         static let emptyString = ""
+        static let titleApiAlert = "Введите API ключ для загрузки данных"
+        static let loadingButtonTitle = "Загрузить"
     }
 
     private enum UrlComponent {
@@ -130,7 +132,6 @@ final class MovieListViewController: UIViewController {
         switch viewModel?.movieListState {
         case .initial:
             setupUI()
-            viewModel?.fetchMovies()
             activityIndicator.startAnimating()
             activityIndicator.isHidden = false
             moviesCollectionView.isHidden = true
@@ -150,14 +151,36 @@ final class MovieListViewController: UIViewController {
 
     private func setupUI() {
         addSubviews()
+        callApiAlertHandler()
+        viewModel?.getApiKey()
+        reloadBind()
         createSearchController()
-        bind()
         setupConstraintsForCollectionView()
         setupConstraintsForStackView()
         setupConstraintsActivityView()
     }
 
-    private func bind() {
+    private func callApiAlertHandler() {
+        viewModel?.apiKeyHandler = { [weak self] in
+            guard let self = self else { return }
+            self.apiKeyAlertBind()
+        }
+    }
+
+    private func apiKeyAlertBind() {
+        DispatchQueue.main.async {
+            self.showApiKeyAlert(
+                title: Constants.titleApiAlert,
+                message: Constants.emptyString,
+                actionTitle: Constants.loadingButtonTitle
+            ) { [weak self] text in
+                guard let self = self else { return }
+                self.viewModel?.setApiKey(text: text)
+            }
+        }
+    }
+
+    private func reloadBind() {
         viewModel?.reloadViewHandler = { [weak self] in
             guard let self = self else { return }
             DispatchQueue.main.async {
@@ -287,9 +310,9 @@ extension MovieListViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as? MovieCollectionViewCell,
             let movie = isFiltering ? viewModel?.filteredMovies?[indexPath.row] : viewModel?.movies[indexPath.row],
-            let imageService = viewModel?.imageService
+            let viewModel = viewModel
         else { return UICollectionViewCell() }
-        cell.configure(imageService: imageService, movie: movie)
+        cell.configure(viewModel, movie: movie)
         return cell
     }
 
