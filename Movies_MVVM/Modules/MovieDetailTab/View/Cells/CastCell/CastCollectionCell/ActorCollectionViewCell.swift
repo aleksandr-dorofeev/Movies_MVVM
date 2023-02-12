@@ -9,6 +9,7 @@ final class ActorCollectionViewCell: UICollectionViewCell {
 
     private enum Constants {
         static let personPlaceholder = "personPlaceholder"
+        static let emptyString = ""
     }
 
     // MARK: - Private visual components
@@ -79,11 +80,11 @@ final class ActorCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Public properties
 
-    func configure(imageService: ImageServiceProtocol, cast: Cast) {
-        currentActorPath = cast.profilePath ?? ""
+    func configure(_ viewModel: MovieDetailViewModelProtocol, cast: Cast) {
+        currentActorPath = cast.profilePath ?? Constants.emptyString
         actorNameLabel.text = cast.name
         characterNameLabel.text = cast.character
-        getActorImage(imageService: imageService, cast: cast)
+        setImage(viewModel, cast: cast)
     }
 
     // MARK: - Private methods
@@ -99,21 +100,12 @@ final class ActorCollectionViewCell: UICollectionViewCell {
         setupConstraintsForActorInfoStackView()
     }
 
-    private func getActorImage(imageService: ImageServiceProtocol, cast: Cast) {
-        guard let actorPoster = cast.profilePath else { return }
-        imageService.getImage(imagePath: actorPoster) { [weak self] result in
+    private func setImage(_ viewModel: MovieDetailViewModelProtocol, cast: Cast) {
+        let actorImagePath = cast.profilePath ?? ""
+        viewModel.getActorImage(actorImagePath: actorImagePath) { [weak self] data in
             guard let self = self else { return }
-            switch result {
-            case let .success(data):
-                guard
-                    cast.profilePath == self.currentActorPath,
-                    let data = data
-                else { return }
-                DispatchQueue.main.async {
-                    self.actorImageView.image = UIImage(data: data)
-                }
-            case let .failure(error):
-                print(error.localizedDescription)
+            DispatchQueue.main.async {
+                self.actorImageView.image = UIImage(data: data)
             }
         }
     }

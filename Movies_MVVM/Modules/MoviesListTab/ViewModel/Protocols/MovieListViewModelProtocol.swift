@@ -15,7 +15,6 @@ protocol MovieListViewModelProtocol {
 
     var filteredMovies: [Movie]? { get }
     var movies: [Movie] { get }
-    var imageService: ImageServiceProtocol { get }
 
     func getApiKey()
     func setApiKey(text: String)
@@ -23,4 +22,5 @@ protocol MovieListViewModelProtocol {
     func fetchSpecificCategory(tag: Int)
     func filterContentForSearch(_ searchText: String)
     func showMovieDetail(id: String)
+    func getPoster(currentPosterPath: String, movie: Movie, completion: @escaping (Data) -> ())
 }

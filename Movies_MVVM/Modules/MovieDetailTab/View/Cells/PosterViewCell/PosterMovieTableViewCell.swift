@@ -51,8 +51,8 @@ final class PosterMovieTableViewCell: UITableViewCell {
 
     // MARK: - Public methods
 
-    func configure(_ imageService: ImageServiceProtocol, movieDetail: MovieDetail) {
-        getPoster(imageService: imageService, movieDetail: movieDetail)
+    func configure(_ viewModel: MovieDetailViewModelProtocol, movieDetail: MovieDetail) {
+        setImage(viewModel, movieDetail: movieDetail)
     }
 
     // MARK: - Private methods
@@ -66,17 +66,11 @@ final class PosterMovieTableViewCell: UITableViewCell {
         setupConstraintsForBottomShadowImageView()
     }
 
-    private func getPoster(imageService: ImageServiceProtocol, movieDetail: MovieDetail) {
-        imageService.getImage(imagePath: movieDetail.posterPath) { [weak self] result in
+    private func setImage(_ viewModel: MovieDetailViewModelProtocol, movieDetail: MovieDetail) {
+        viewModel.getPosterImage(posterPath: movieDetail.posterPath) { [weak self] data in
             guard let self = self else { return }
-            switch result {
-            case let .success(data):
-                DispatchQueue.main.async {
-                    guard let data = data else { return }
-                    self.detailMovieImageView.image = UIImage(data: data)
-                }
-            case let .failure(error):
-                print(error.localizedDescription)
+            DispatchQueue.main.async {
+                self.detailMovieImageView.image = UIImage(data: data)
             }
         }
     }

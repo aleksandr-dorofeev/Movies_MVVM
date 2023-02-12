@@ -11,7 +11,10 @@ final class AssemblyModuleBuilder: AssemblyModuleBuilderProtocol {
         let view = MovieListViewController()
         let keychainService = KeychainService()
         let networkService = NetworkService(keychainService: keychainService)
-        let imageService = ImageService()
+        let fileManagerService = FileManagerService()
+        let imageNetworkService = ImageNetworkService()
+        let proxyService = Proxy(imageNetworkService: imageNetworkService, fileManagerService: fileManagerService)
+        let imageService = ImageService(proxy: proxyService)
         let dataService = DataService()
         let viewModel = MovieListViewModel(
             networkService: networkService,
@@ -27,7 +30,10 @@ final class AssemblyModuleBuilder: AssemblyModuleBuilderProtocol {
         let view = MovieDetailViewController()
         let keychainService = KeychainService()
         let networkService = NetworkService(keychainService: keychainService)
-        let imageService = ImageService()
+        let fileManagerService = FileManagerService()
+        let imageNetworkService = ImageNetworkService()
+        let proxyService = Proxy(imageNetworkService: imageNetworkService, fileManagerService: fileManagerService)
+        let imageService = ImageService(proxy: proxyService)
         let dataService = DataService()
         let viewModel = MovieDetailViewModel(
             networkService: networkService,

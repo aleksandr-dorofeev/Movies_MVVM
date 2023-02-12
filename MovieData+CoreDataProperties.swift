@@ -5,7 +5,7 @@ import CoreData
 import Foundation
 
 /// Movie data in core data
-public extension MovieData {
+extension MovieData {
     // MARK: - Private Constants
 
     private enum Constants {
@@ -14,10 +14,15 @@ public extension MovieData {
 
     // MARK: - Public properties
 
+    /// ID
     @NSManaged var id: Int64
+    /// Movie type
     @NSManaged var movieType: String?
+    /// Poster path
     @NSManaged var posterPath: String?
+    /// Title
     @NSManaged var title: String?
+    /// Vote average
     @NSManaged var voteAverage: Double
 
     // MARK: - Public methods

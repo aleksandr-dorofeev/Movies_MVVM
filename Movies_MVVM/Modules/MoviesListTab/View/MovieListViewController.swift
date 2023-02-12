@@ -310,9 +310,9 @@ extension MovieListViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as? MovieCollectionViewCell,
             let movie = isFiltering ? viewModel?.filteredMovies?[indexPath.row] : viewModel?.movies[indexPath.row],
-            let imageService = viewModel?.imageService
+            let viewModel = viewModel
         else { return UICollectionViewCell() }
-        cell.configure(imageService: imageService, movie: movie)
+        cell.configure(viewModel, movie: movie)
         return cell
     }
 

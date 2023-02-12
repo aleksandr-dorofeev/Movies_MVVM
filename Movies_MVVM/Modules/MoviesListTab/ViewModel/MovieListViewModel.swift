@@ -88,7 +88,7 @@ final class MovieListViewModel: MovieListViewModelProtocol {
     }
 
     func getApiKey() {
-        if !keychainService.readKey().isEmpty {
+        if keychainService.readKey() != nil {
             getMovies()
         } else {
             apiKeyHandler?()
@@ -119,6 +119,23 @@ final class MovieListViewModel: MovieListViewModelProtocol {
 
     func showMovieDetail(id: String) {
         onMovieDetailHandler?(id)
+    }
+
+    func getPoster(currentPosterPath: String, movie: Movie, completion: @escaping (Data) -> ()) {
+        var posterPath = currentPosterPath
+        posterPath = movie.posterPath ?? Constants.emptyString
+        imageService.getImage(imagePath: posterPath) { result in
+            switch result {
+            case let .success(data):
+                guard
+                    movie.posterPath == posterPath,
+                    let data = data
+                else { return }
+                completion(data)
+            case let .failure(error):
+                print(error.localizedDescription)
+            }
+        }
     }
 
     // MARK: - Private methods

@@ -70,6 +70,30 @@ final class MovieDetailViewModel: MovieDetailViewModelProtocol {
         }
     }
 
+    func getPosterImage(posterPath: String, completion: @escaping (Data) -> ()) {
+        imageService.getImage(imagePath: posterPath) { result in
+            switch result {
+            case let .success(data):
+                guard let data = data else { return }
+                completion(data)
+            case let .failure(error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    func getActorImage(actorImagePath: String, completion: @escaping (Data) -> ()) {
+        imageService.getImage(imagePath: actorImagePath) { result in
+            switch result {
+            case let .success(data):
+                guard let data = data else { return }
+                completion(data)
+            case let .failure(error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+
     // MARK: - Private methods
 
     private func getMovieDetails() {

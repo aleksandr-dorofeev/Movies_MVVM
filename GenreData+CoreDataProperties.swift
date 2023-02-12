@@ -5,7 +5,7 @@ import CoreData
 import Foundation
 
 /// Genre data in core data
-public extension GenreData {
+extension GenreData {
     // MARK: - Private Constants
 
     private enum Constants {
@@ -14,7 +14,9 @@ public extension GenreData {
 
     // MARK: - Public properties
 
+    /// Name
     @NSManaged var name: String?
+    /// Movie detail parent
     @NSManaged var movieDetail: MovieDetailData?
 
     // MARK: - Public methods

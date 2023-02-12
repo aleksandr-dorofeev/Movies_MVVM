@@ -6,5 +6,5 @@ import Foundation
 /// Protocol for keychain
 protocol KeychainServiceProtocol {
     func writeKey(text: String)
-    func readKey() -> String
+    func readKey() -> String?
 }

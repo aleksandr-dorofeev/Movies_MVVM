@@ -76,28 +76,18 @@ final class MovieCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Public methods
 
-    func configure(imageService: ImageServiceProtocol, movie: Movie) {
+    func configure(_ viewModel: MovieListViewModelProtocol, movie: Movie) {
         movieTitleLabel.text = movie.title
-        getPoster(imageService: imageService, movie: movie)
+        setImage(viewModel, movie: movie)
     }
 
     // MARK: - Private methods
 
-    private func getPoster(imageService: ImageServiceProtocol, movie: Movie) {
-        currentPosterPath = movie.posterPath ?? Constants.emptyString
-        imageService.getImage(imagePath: currentPosterPath) { [weak self] result in
+    private func setImage(_ viewModel: MovieListViewModelProtocol, movie: Movie) {
+        viewModel.getPoster(currentPosterPath: currentPosterPath, movie: movie) { [weak self] data in
             guard let self = self else { return }
-            switch result {
-            case let .success(data):
-                guard
-                    movie.posterPath == self.currentPosterPath,
-                    let data = data
-                else { return }
-                DispatchQueue.main.async {
-                    self.movieImageView.image = UIImage(data: data)
-                }
-            case let .failure(error):
-                print(error.localizedDescription)
+            DispatchQueue.main.async {
+                self.movieImageView.image = UIImage(data: data)
             }
         }
     }

@@ -11,12 +11,13 @@ protocol MovieDetailViewModelProtocol {
     var failureActorsHandler: ErrorHandler? { get set }
     var backHandler: VoidHandler? { get set }
 
-    var imageService: ImageServiceProtocol { get }
     var networkService: NetworkServiceProtocol { get }
     var id: String? { get }
     var movieDetail: MovieDetail? { get }
     var cast: [Cast] { get }
 
     func fetchCast(components: String)
+    func getPosterImage(posterPath: String, completion: @escaping (Data) -> ())
+    func getActorImage(actorImagePath: String, completion: @escaping (Data) -> ())
     func backPreviousScreen()
 }

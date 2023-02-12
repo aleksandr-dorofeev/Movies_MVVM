@@ -10,7 +10,6 @@ final class KeychainService: KeychainServiceProtocol {
 
     private enum Constants {
         static let key = "key"
-        static let emptyString = ""
     }
 
     // MARK: - Private properties
@@ -23,8 +22,7 @@ final class KeychainService: KeychainServiceProtocol {
         keychain.set(text, forKey: Constants.key)
     }
 
-    func readKey() -> String {
-        guard let key = keychain.get(Constants.key) else { return Constants.emptyString }
-        return key
+    func readKey() -> String? {
+        keychain.get(Constants.key)
     }
 }

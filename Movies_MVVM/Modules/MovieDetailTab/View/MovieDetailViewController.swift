@@ -34,10 +34,6 @@ final class MovieDetailViewController: UIViewController {
 
     var viewModel: MovieDetailViewModelProtocol?
 
-    // MARK: - Private properties
-
-    private let cellTypes: [CellType] = [.poster, .info, .genre, .overview, .actors]
-
     // MARK: - Private visual components
 
     private lazy var movieTableView: UITableView = {
@@ -60,6 +56,10 @@ final class MovieDetailViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+
+    // MARK: - Private properties
+
+    private let cellTypes: [CellType] = [.poster, .info, .genre, .overview, .actors]
 
     // MARK: - Life cycle
 
@@ -193,9 +193,9 @@ extension MovieDetailViewController: UITableViewDataSource {
                     for: indexPath
                 ) as? PosterMovieTableViewCell,
                 let movieDetail = viewModel?.movieDetail,
-                let imageService = viewModel?.imageService
+                let viewModel = viewModel
             else { return UITableViewCell() }
-            posterCell.configure(imageService, movieDetail: movieDetail)
+            posterCell.configure(viewModel, movieDetail: movieDetail)
             return posterCell
         case .info:
             guard

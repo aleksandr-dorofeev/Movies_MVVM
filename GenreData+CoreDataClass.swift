@@ -5,4 +5,4 @@ import CoreData
 import Foundation
 
 @objc(GenreData)
-public class GenreData: NSManagedObject {}
+class GenreData: NSManagedObject {}

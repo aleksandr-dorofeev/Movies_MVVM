@@ -5,7 +5,7 @@ import CoreData
 import Foundation
 
 /// Movie Detail data in core data
-public extension MovieDetailData {
+extension MovieDetailData {
     // MARK: - Private Constants
 
     private enum Constants {
@@ -14,12 +14,19 @@ public extension MovieDetailData {
 
     // MARK: - Public properties
 
+    /// ID
     @NSManaged var id: Int64
+    /// Overview
     @NSManaged var overview: String?
+    /// Poster path
     @NSManaged var posterPath: String?
+    /// Release date
     @NSManaged var releaseDate: String?
+    /// Title
     @NSManaged var title: String?
+    /// Vote average
     @NSManaged var voteAverage: Double
+    /// Genres child
     @NSManaged var genres: NSSet?
 
     // MARK: - Public methods
@@ -30,7 +37,7 @@ public extension MovieDetailData {
 }
 
 /// Generated accessors for genres
-public extension MovieDetailData {
+extension MovieDetailData {
     @objc(addGenresObject:)
     @NSManaged func addToGenres(_ value: GenreData)
 
