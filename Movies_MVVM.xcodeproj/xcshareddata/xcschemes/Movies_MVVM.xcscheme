@@ -26,8 +26,55 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES"
+      onlyGenerateCoverageForSpecifiedTargets = "YES">
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "F8AC244F2907417E00639953"
+            BuildableName = "Movies_MVVM.app"
+            BlueprintName = "Movies_MVVM"
+            ReferencedContainer = "container:Movies_MVVM.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "F82CC2CF299965760084FAA0"
+            BuildableName = "Movies_MVVMTests.xctest"
+            BlueprintName = "Movies_MVVMTests"
+            ReferencedContainer = "container:Movies_MVVM.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "F82CC2DC299965840084FAA0"
+            BuildableName = "Movies_MVVMUITests.xctest"
+            BlueprintName = "Movies_MVVMUITests"
+            ReferencedContainer = "container:Movies_MVVM.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F82CC2CF299965760084FAA0"
+               BuildableName = "Movies_MVVMTests.xctest"
+               BlueprintName = "Movies_MVVMTests"
+               ReferencedContainer = "container:Movies_MVVM.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F82CC2DC299965840084FAA0"
+               BuildableName = "Movies_MVVMUITests.xctest"
+               BlueprintName = "Movies_MVVMUITests"
+               ReferencedContainer = "container:Movies_MVVM.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

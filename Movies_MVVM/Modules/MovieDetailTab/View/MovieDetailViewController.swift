@@ -20,6 +20,7 @@ final class MovieDetailViewController: UIViewController {
         static let bottomShadowImageName = "bottomShadow"
         static let castUrlComponent = "/credits"
         static let errorTitle = "Error"
+        static let movieDetailTableViewID = "MovieDetail"
     }
 
     private enum CellType {
@@ -42,6 +43,7 @@ final class MovieDetailViewController: UIViewController {
         tableView.scrollsToTop = false
         tableView.allowsSelection = false
         tableView.dataSource = self
+        tableView.accessibilityIdentifier = Constants.movieDetailTableViewID
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()

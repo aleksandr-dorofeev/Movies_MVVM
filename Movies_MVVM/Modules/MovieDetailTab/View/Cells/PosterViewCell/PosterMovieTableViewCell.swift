@@ -10,6 +10,7 @@ final class PosterMovieTableViewCell: UITableViewCell {
     private enum Constants {
         static let bottomShadowImageName = "bottomShadow"
         static let errorMessage = "Error"
+        static let emptyString = ""
     }
 
     // MARK: - Private visual components
@@ -67,7 +68,7 @@ final class PosterMovieTableViewCell: UITableViewCell {
     }
 
     private func setImage(_ viewModel: MovieDetailViewModelProtocol, movieDetail: MovieDetail) {
-        viewModel.getPosterImage(posterPath: movieDetail.posterPath) { [weak self] data in
+        viewModel.getPosterImage(posterPath: movieDetail.posterPath ?? Constants.emptyString) { [weak self] data in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.detailMovieImageView.image = UIImage(data: data)
