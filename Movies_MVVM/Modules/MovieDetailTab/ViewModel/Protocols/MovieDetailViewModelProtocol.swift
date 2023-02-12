@@ -11,7 +11,6 @@ protocol MovieDetailViewModelProtocol {
     var failureActorsHandler: ErrorHandler? { get set }
     var backHandler: VoidHandler? { get set }
 
-    var networkService: NetworkServiceProtocol { get }
     var id: String? { get }
     var movieDetail: MovieDetail? { get }
     var cast: [Cast] { get }
