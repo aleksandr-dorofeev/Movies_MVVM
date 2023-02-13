@@ -41,10 +41,12 @@ final class MovieListViewModelTests: XCTestCase {
             dataService: dataService,
             keychainService: keychainService
         )
+        super.setUp()
     }
 
     override func tearDown() {
         viewModel = nil
+        super.setUp()
     }
 
     func testSetUpAliKey() {

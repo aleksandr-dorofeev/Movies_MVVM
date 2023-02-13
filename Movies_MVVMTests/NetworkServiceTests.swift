@@ -63,10 +63,12 @@ final class NetworkServiceTests: XCTestCase {
 
     override func setUp() {
         networkService = MockNetworkService()
+        super.setUp()
     }
 
     override func tearDown() {
         networkService = nil
+        super.tearDown()
     }
 
     func testSuccessMovies() {

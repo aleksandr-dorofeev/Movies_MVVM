@@ -36,10 +36,12 @@ final class MovieDetailViewModelTests: XCTestCase {
             id: Constants.movieIdString,
             dataService: dataService
         )
+        super.setUp()
     }
 
     override func tearDown() {
         viewModel = nil
+        super.tearDown()
     }
 
     func testBackPrevious() {

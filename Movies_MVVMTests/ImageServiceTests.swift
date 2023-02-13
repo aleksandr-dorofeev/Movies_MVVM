@@ -23,10 +23,12 @@ final class ImageServiceTests: XCTestCase {
 
     override func setUp() {
         imageService = MockImageService()
+        super.setUp()
     }
 
     override func tearDown() {
         imageService = nil
+        super.tearDown()
     }
 
     func testSuccessImage() {

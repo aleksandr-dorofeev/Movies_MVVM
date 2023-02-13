@@ -60,8 +60,10 @@ final class DataServiceTests: XCTestCase {
         dataService.writeMovieData(movies: mockMovies, category: Constants.mockCategory)
         let result = dataService.readMovieData(category: Constants.mockCategory)
         XCTAssertNotNil(result)
-        guard let result else { return }
-        guard let movie = Array(result).first else { return }
+        guard
+            let result,
+            let movie = Array(result).first
+        else { return }
         XCTAssertNotNil(movie)
         guard let mockMovie = mockMovies.first else { return }
         XCTAssertEqual(movie.title, mockMovie.title)

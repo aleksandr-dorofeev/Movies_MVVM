@@ -21,10 +21,12 @@ final class ImageNetworkServiceTests: XCTestCase {
 
     override func setUp() {
         imageNetworkService = MockImageNetworkService()
+        super.setUp()
     }
 
     override func tearDown() {
         imageNetworkService = nil
+        super.tearDown()
     }
 
     func testSuccessImageRequest() {

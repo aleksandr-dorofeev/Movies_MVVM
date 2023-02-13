@@ -23,6 +23,7 @@ final class MoviesMVVMUITests: XCTestCase {
     override func setUp() {
         continueAfterFailure = false
         app.launch()
+        super.setUp()
     }
 
     func testHasACollectionView() {

@@ -21,10 +21,12 @@ final class AssemblyBuilderTests: XCTestCase {
 
     override func setUp() {
         assemblyModuleBuilder = AssemblyModuleBuilder()
+        super.setUp()
     }
 
     override func tearDown() {
         assemblyModuleBuilder = nil
+        super.tearDown()
     }
 
     func testMakeMoviesModule() {
