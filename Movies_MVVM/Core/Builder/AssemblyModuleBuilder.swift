@@ -10,7 +10,8 @@ final class AssemblyModuleBuilder: AssemblyModuleBuilderProtocol {
     func makeMovieListModule() -> UIViewController {
         let view = MovieListViewController()
         let keychainService = KeychainService()
-        let networkService = NetworkService(keychainService: keychainService)
+        let networkServiceCore = NetworkServiceCore(keychainService: keychainService)
+        let networkService = NetworkService(networkServiceCore: networkServiceCore)
         let fileManagerService = FileManagerService()
         let imageNetworkService = ImageNetworkService()
         let proxyService = Proxy(imageNetworkService: imageNetworkService, fileManagerService: fileManagerService)
@@ -29,7 +30,8 @@ final class AssemblyModuleBuilder: AssemblyModuleBuilderProtocol {
     func makeDetailMoviesModule(id: String?) -> UIViewController {
         let view = MovieDetailViewController()
         let keychainService = KeychainService()
-        let networkService = NetworkService(keychainService: keychainService)
+        let networkServiceCore = NetworkServiceCore(keychainService: keychainService)
+        let networkService = NetworkService(networkServiceCore: networkServiceCore)
         let fileManagerService = FileManagerService()
         let imageNetworkService = ImageNetworkService()
         let proxyService = Proxy(imageNetworkService: imageNetworkService, fileManagerService: fileManagerService)

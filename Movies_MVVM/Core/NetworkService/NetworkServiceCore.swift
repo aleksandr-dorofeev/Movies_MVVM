@@ -4,7 +4,7 @@
 import Foundation
 
 /// Network service core
-class NetworkServiceCore {
+final class NetworkServiceCore: NetworkServiceCoreProtocol {
     // MARK: - Private Constants
 
     private enum UrlComponent {

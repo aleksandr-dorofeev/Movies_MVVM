@@ -15,7 +15,7 @@ final class MovieListCoordinator: BaseCoordinator {
     var onMovieDetailModule: IntVoidHandler?
     var onFinishFlowHandler: VoidHandler?
 
-    // MARK: - Initialization
+    // MARK: - Initializers
 
     convenience init(assemblyModuleBuilder: AssemblyModuleBuilderProtocol) {
         self.init()

@@ -1,0 +1,35 @@
+{
+    "id": 411,
+    "cast": [
+        {
+            "name": "Skandar Keynes",
+            "profile_path": "/pIdgY16c6AzmCD31pXlCR9SjLlM.jpg",
+            "character": "Edmund Pevensie",
+        },
+        {
+            "name": "Georgie Henley",
+            "profile_path": "/3G12GqaRzx4ovHYMELUAGwChOCx.jpg",
+            "character": "Lucy Pevensie",
+        },
+        {
+            "name": "William Moseley",
+            "profile_path": "/7a55ifGzqKIw9TbEYQUc0bnHfnq.jpg",
+            "character": "Peter Pevensie",
+        },
+        {
+            "name": "Anna Popplewell",
+            "profile_path": "/ooYeKc28Ayqo9KW8gOacDXDghVL.jpg",
+            "character": "Susan Pevensie",
+        },
+        {
+            "name": "Tilda Swinton",
+            "profile_path": "/gWbX3a7V2MgRMRzekfITNcb27xV.jpg",
+            "character": "White Witch",
+        },
+        {
+            "name": "James McAvoy",
+            "profile_path": "/u4REKbm3zhFI2J5tVyqRovGRYUJ.jpg",
+            "character": "Mr. Tumnus",
+        }
+    ]
+}

@@ -6,7 +6,7 @@ import Foundation
 /// Model for detail information about film
 struct MovieDetail: Decodable {
     /// Poster path
-    let posterPath: String
+    let posterPath: String?
     /// Title
     let title: String
     /// Vote average

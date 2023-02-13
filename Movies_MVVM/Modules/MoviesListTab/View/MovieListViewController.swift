@@ -17,6 +17,8 @@ final class MovieListViewController: UIViewController {
         static let emptyString = ""
         static let titleApiAlert = "Введите API ключ для загрузки данных"
         static let loadingButtonTitle = "Загрузить"
+        static let moviesCollectionViewID = "Movies"
+        static let topRatedButtonID = "Top"
     }
 
     private enum UrlComponent {
@@ -74,6 +76,7 @@ final class MovieListViewController: UIViewController {
             MovieCollectionViewCell.self,
             forCellWithReuseIdentifier: Identifier.movieCellID
         )
+        collectionView.accessibilityIdentifier = Constants.moviesCollectionViewID
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -96,6 +99,7 @@ final class MovieListViewController: UIViewController {
         button.backgroundColor = UIColor(named: Colors.buttonColorName)
         button.layer.cornerRadius = 10
         button.tag = 1
+        button.accessibilityIdentifier = Constants.topRatedButtonID
         button.addTarget(self, action: #selector(chooseCategoryAction), for: .touchUpInside)
         return button
     }()
