@@ -46,6 +46,7 @@
 		F82CC306299968930084FAA0 /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82CC305299968930084FAA0 /* NetworkServiceTests.swift */; };
 		F82CC308299968AA0084FAA0 /* ImageServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82CC307299968AA0084FAA0 /* ImageServiceTests.swift */; };
 		F82CC30A299968C80084FAA0 /* ImageNetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82CC309299968C80084FAA0 /* ImageNetworkServiceTests.swift */; };
+		F82CC30E299A4F370084FAA0 /* MockDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82CC30D299A4F370084FAA0 /* MockDataService.swift */; };
 		F866B0C8299588B3002DDCA6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8AC245E2907418000639953 /* LaunchScreen.storyboard */; };
 		F871423C29917EBB003E8801 /* AssemblyModuleBuilderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F871423B29917EBB003E8801 /* AssemblyModuleBuilderProtocol.swift */; };
 		F871423E29917F1B003E8801 /* AssemblyModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F871423D29917F1B003E8801 /* AssemblyModuleBuilder.swift */; };
@@ -138,6 +139,7 @@
 		F82CC305299968930084FAA0 /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
 		F82CC307299968AA0084FAA0 /* ImageServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceTests.swift; sourceTree = "<group>"; };
 		F82CC309299968C80084FAA0 /* ImageNetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNetworkServiceTests.swift; sourceTree = "<group>"; };
+		F82CC30D299A4F370084FAA0 /* MockDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataService.swift; sourceTree = "<group>"; };
 		F871423B29917EBB003E8801 /* AssemblyModuleBuilderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssemblyModuleBuilderProtocol.swift; sourceTree = "<group>"; };
 		F871423D29917F1B003E8801 /* AssemblyModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssemblyModuleBuilder.swift; sourceTree = "<group>"; };
 		F871424129918166003E8801 /* ImageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceProtocol.swift; sourceTree = "<group>"; };
@@ -408,6 +410,7 @@
 				F82CC2F52999667E0084FAA0 /* MockNetworkService.swift */,
 				F82CC2F9299967610084FAA0 /* MockKeychainService.swift */,
 				F82CC2FB299967C20084FAA0 /* MockImageService.swift */,
+				F82CC30D299A4F370084FAA0 /* MockDataService.swift */,
 				F82CC2FD299967E00084FAA0 /* MockImageNetworkService.swift */,
 			);
 			path = Mocks;
@@ -893,6 +896,7 @@
 				F82CC2D3299965760084FAA0 /* AssemblyBuilderTests.swift in Sources */,
 				F82CC308299968AA0084FAA0 /* ImageServiceTests.swift in Sources */,
 				F82CC2FE299967E00084FAA0 /* MockImageNetworkService.swift in Sources */,
+				F82CC30E299A4F370084FAA0 /* MockDataService.swift in Sources */,
 				F82CC3042999687F0084FAA0 /* MovieDetailViewModelTests.swift in Sources */,
 				F82CC30A299968C80084FAA0 /* ImageNetworkServiceTests.swift in Sources */,
 				F82CC300299968440084FAA0 /* DataServiceTests.swift in Sources */,

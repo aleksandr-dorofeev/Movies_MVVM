@@ -21,6 +21,7 @@ final class DataServiceTests: XCTestCase {
 
     // MARK: - Private properties
 
+    private let dataService = MockDataService()
     private var mockMovies: [Movie] = [
         Movie(
             id: Constants.mockMovieId,
@@ -38,31 +39,26 @@ final class DataServiceTests: XCTestCase {
         overview: Constants.fooData,
         id: Constants.mockMovieDetailId
     )
-    private var dataService: DataServiceProtocol?
 
     // MARK: - Public methods
 
-    override func setUp() {
-        dataService = DataService()
-    }
-
-    override func tearDown() {
-        dataService = nil
-    }
-
     func testWriteMovies() {
-        XCTAssertNotNil(dataService?.writeMovieData(movies: mockMovies, category: Constants.mockCategory))
+        XCTAssertNil(dataService.dataMovies)
+        dataService.writeMovieData(movies: mockMovies, category: Constants.mockCategory)
+        XCTAssertNotNil(dataService.dataMovies)
+        dataService.dataMovies = nil
     }
 
     func testWriteMovieDetail() {
-        XCTAssertNotNil(
-            dataService?
-                .writeMovieDetailData(movieDetail: mockMovieDetail, id: Constants.mockMovieDetailId)
-        )
+        XCTAssertNil(dataService.dataMovieDetail)
+        dataService.writeMovieDetailData(movieDetail: mockMovieDetail, id: Constants.mockMovieDetailId)
+        XCTAssertNotNil(dataService.dataMovieDetail)
+        dataService.dataMovieDetail = nil
     }
 
     func testReadMovies() {
-        let result = dataService?.readMovieData(category: Constants.mockCategory)
+        dataService.writeMovieData(movies: mockMovies, category: Constants.mockCategory)
+        let result = dataService.readMovieData(category: Constants.mockCategory)
         XCTAssertNotNil(result)
         guard let result else { return }
         guard let movie = Array(result).first else { return }
@@ -75,7 +71,8 @@ final class DataServiceTests: XCTestCase {
     }
 
     func testReadMovieDetail() {
-        let result = dataService?.readMovieDetailData(id: Constants.mockMovieDetailId)
+        dataService.writeMovieDetailData(movieDetail: mockMovieDetail, id: Constants.mockMovieDetailId)
+        let result = dataService.readMovieDetailData(id: Constants.mockMovieDetailId)
         XCTAssertNotNil(result)
         guard let result else { return }
         XCTAssertNotNil(result)
